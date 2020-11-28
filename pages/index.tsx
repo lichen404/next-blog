@@ -1,4 +1,4 @@
-import Head from 'next/head'
+
 import styles from '../styles/Home.module.css'
 import React from "react";
 import Link from "next/link";
@@ -65,14 +65,7 @@ export default function Home() {
                     <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo}/>
                 </a>
             </footer>
-            <style jsx>{`
-              h1 {
-                color:red
-            }`
 
-            }
-
-            </style>
         </div>
     )
 }
