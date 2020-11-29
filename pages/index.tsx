@@ -2,6 +2,7 @@
 import styles from '../styles/Home.module.css'
 import React from "react";
 import Link from "next/link";
+import png from 'assets/test.png'
 
 export default function Home() {
     return (
@@ -29,7 +30,7 @@ export default function Home() {
                         <h3>Documentation &rarr;</h3>
                         <p>Find in-depth information about Next.js features and API.</p>
                     </a>
-
+                    <img src={png} alt=""/>
                     <a href="https://nextjs.org/learn" className={styles.card}>
                         <h3>Learn &rarr;</h3>
                         <p>Learn about Next.js in an interactive course with quizzes!</p>
