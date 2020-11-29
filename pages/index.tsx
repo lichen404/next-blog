@@ -1,10 +1,29 @@
+import styles from '../styles/Home.module.css';
+import React from 'react';
+import Link from 'next/link';
+import png from 'assets/test.png';
+import {GetServerSideProps, NextPage} from 'next';
+import {UAParser} from 'ua-parser-js';
 
-import styles from '../styles/Home.module.css'
-import React from "react";
-import Link from "next/link";
-import png from 'assets/test.png'
+export const getServerSideProps:GetServerSideProps = async (context)=>{
+    const ua = context.req.headers['user-agent']
+    const result = new UAParser(ua).getResult()
+    return {
+        props:{
+            browser:result.browser
+        }
+    }
 
-export default function Home() {
+}
+type Props ={
+    browser:{
+        name:string;
+        version:string;
+        major:string;
+    }
+}
+const Home:NextPage<Props> = function (props) {
+    const {browser} = props;
     return (
         <div className={styles.container}>
 
@@ -13,6 +32,7 @@ export default function Home() {
 
 
             <main className={styles.main}>
+                <h1>你的浏览器是{browser.name}</h1>
                 <h1 className="title">
                     第一篇文章
                     <Link href="/posts/first-post">
@@ -68,5 +88,6 @@ export default function Home() {
             </footer>
 
         </div>
-    )
+    );
 }
+export default Home;
