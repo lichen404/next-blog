@@ -1,20 +1,20 @@
 {
    "type": "postgres",
-   "host": "192.168.2.210",
+   "host": "10.8.9.63",
    "port": 5432,
    "username": "blog",
    "password": "",
    "database": "blog_development",
-   "synchronize": true,
+   "synchronize": false,
    "logging": false,
    "entities": [
-      "src/entity/**/*.ts"
+      "dist/entity/**/*.js"
    ],
    "migrations": [
-      "src/migration/**/*.ts"
+      "dist/migration/**/*.js"
    ],
    "subscribers": [
-      "src/subscriber/**/*.ts"
+      "dist/subscriber/**/*.js"
    ],
    "cli": {
       "entitiesDir": "src/entity",

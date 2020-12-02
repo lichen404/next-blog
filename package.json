@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"next dev\" \"babel -w ./src --out-dir dist --extensions .ts,.tsx\"",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "migration:run": "typeorm migration:run",
+    "migration:revert": "typeorm migration:revert",
+    "entity:create": "typeorm entity:create"
   },
   "dependencies": {
     "@babel/cli": "^7.12.8",
     "axios": "^0.21.0",
+    "concurrently": "^5.3.0",
     "gray-matter": "^4.0.2",
     "marked": "^1.2.5",
     "next": "9.5.5",
