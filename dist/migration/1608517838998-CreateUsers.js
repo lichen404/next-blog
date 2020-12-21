@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CreatePost1606890658167 = void 0;
+exports.CreateUsers1608517838998 = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -17,12 +17,12 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _typeorm = require("typeorm");
 
-var CreatePost1606890658167 = /*#__PURE__*/function () {
-  function CreatePost1606890658167() {
-    (0, _classCallCheck2["default"])(this, CreatePost1606890658167);
+var CreateUsers1608517838998 = /*#__PURE__*/function () {
+  function CreateUsers1608517838998() {
+    (0, _classCallCheck2["default"])(this, CreateUsers1608517838998);
   }
 
-  (0, _createClass2["default"])(CreatePost1606890658167, [{
+  (0, _createClass2["default"])(CreateUsers1608517838998, [{
     key: "up",
     value: function () {
       var _up = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(queryRunner) {
@@ -32,19 +32,19 @@ var CreatePost1606890658167 = /*#__PURE__*/function () {
               case 0:
                 _context.next = 2;
                 return queryRunner.createTable(new _typeorm.Table({
-                  name: 'posts',
+                  name: "users",
                   columns: [{
                     name: 'id',
-                    type: 'int',
-                    isPrimary: true,
                     isGenerated: true,
-                    generationStrategy: 'increment'
+                    type: 'int',
+                    generationStrategy: 'increment',
+                    isPrimary: true
                   }, {
-                    name: 'title',
+                    name: "username",
                     type: 'varchar'
                   }, {
-                    name: 'content',
-                    type: 'text'
+                    name: 'password_digest',
+                    type: 'varchar'
                   }]
                 }));
 
@@ -71,7 +71,7 @@ var CreatePost1606890658167 = /*#__PURE__*/function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return queryRunner.dropTable('posts');
+                return queryRunner.dropTable('users');
 
               case 2:
               case "end":
@@ -88,7 +88,7 @@ var CreatePost1606890658167 = /*#__PURE__*/function () {
       return down;
     }()
   }]);
-  return CreatePost1606890658167;
+  return CreateUsers1608517838998;
 }();
 
-exports.CreatePost1606890658167 = CreatePost1606890658167;
+exports.CreateUsers1608517838998 = CreateUsers1608517838998;
