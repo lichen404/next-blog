@@ -9,14 +9,14 @@ import {
 import {Post} from "./Post";
 import {Comment} from "./Comment";
 
-@Entity()
+@Entity('users')
 export class User {
     @PrimaryGeneratedColumn('increment')
     id: number;
     @Column('varchar')
     username: string;
     @Column('varchar')
-    password_digest: string;
+    passwordDigest: string;
     @CreateDateColumn()
     createdAt: Date;
     @UpdateDateColumn()

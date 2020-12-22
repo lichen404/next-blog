@@ -9,9 +9,9 @@ import {
 } from "typeorm";
 import {User} from "./User";
 import {Comment} from "./Comment";
-import {comment} from "postcss";
 
-@Entity()
+
+@Entity('posts')
 export class Post {
     @PrimaryGeneratedColumn('increment')
     id: number;
