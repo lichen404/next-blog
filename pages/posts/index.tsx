@@ -2,6 +2,7 @@ import {NextPage} from 'next';
 import React from 'react';
 import {getPosts} from '../../lib/posts';
 import Link from 'next/link';
+import {Post} from "../../next-env";
 
 export const getStaticProps = async ()=>{
     const posts = await getPosts();

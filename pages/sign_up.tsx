@@ -1,45 +1,25 @@
 import {NextPage} from "next";
-import React, {useCallback, useState} from "react";
-import axios, {AxiosError} from "axios";
+import React from "react";
+import axios from "axios";
+import {useForm} from "../hooks/useForm";
 
 const SignUp: NextPage = () => {
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-        passwordConfirm: ""
-    })
-    const [errors, setErrors] = useState({
-        username: [],
-        password: [],
-        passwordConfirmation: []
-    })
-    const onSubmit = useCallback((e) => {
-        e.preventDefault()
-        axios.post(`/api/v1/users`, formData).then(() => {
-
-        }, (error: AxiosError) => {
-            if (error.response.status === 422) {
-                setErrors(error.response.data)
-            }
-        })
-    }, [])
+    const {form} = useForm({
+        initFormData: {username: '', password: '', passwordConfirmation: ''}, fields: [
+            {label: '用户名', type: 'text', key: 'username',},
+            {label: '密码', type: 'password', key: 'password',},
+            {label: '确认密码', type: 'password', key: 'passwordConfirmation',}
+        ],
+        buttons: <button type="submit">注册</button>,
+        submit: {
+            request: formData => axios.post(`/api/v1/users`, formData),
+            message: '注册成功'
+        }
+    });
     return (
         <>
             <h1>注册</h1>
-            <form>
-                <div>
-                    <label>用户名
-                        <input type="text" defaultValue={formData.username}
-                        />
-                    </label>
-                    <label>密码
-                        <input type="password" defaultValue={formData.password}/>
-                    </label>
-                    <label>确认密码
-                        <input type="password" defaultValue={formData.passwordConfirm}/>
-                    </label>
-                </div>
-            </form>
+            {form}
         </>
     )
 }
