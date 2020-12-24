@@ -28,7 +28,7 @@ export class User {
     updatedAt: Date;
     @OneToMany('Post', 'author')
     posts: Post[];
-    @OneToMany('Comment','user' )
+    @OneToMany('Comment', 'user')
     comments: Comment[];
     errors = {username: [] as string[], password: [] as string[], passwordConfirmation: [] as string[]};
     password: string;
@@ -65,7 +65,8 @@ export class User {
     generatePasswordDigest() {
         this.passwordDigest = md5(this.password)
     }
-    toJSON(){
-        return _.omit(this,['password','passwordConfirmation','passwordDigest','errors'])
+
+    toJSON() {
+        return _.omit(this, ['password', 'passwordConfirmation', 'passwordDigest', 'errors'])
     }
 }

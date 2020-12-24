@@ -14,7 +14,7 @@ type useFormOptions<T> = {
     buttons: ReactChild;
     submit: {
         request: (formData: T) => Promise<AxiosResponse<T>>;
-        message: string
+        success: () => void;
     }
 
 }
@@ -32,7 +32,7 @@ export function useForm<T>(options: useFormOptions<T>) {
         }
         return e
     })
-    //不加依赖会是什么样
+    //不加依赖会是什么样(过时的闭包)
     const onChange = useCallback((key: keyof T, value) => {
         setFormData({
             ...formData, [key]: value
@@ -40,13 +40,16 @@ export function useForm<T>(options: useFormOptions<T>) {
     }, [formData])
     const _onSubmit = useCallback((e) => {
         e.preventDefault()
-        submit.request(formData).then(() => {
-            window.alert(submit.message)
-        }, (error: AxiosError) => {
+        submit.request(formData).then(
+           submit.success
+        , (error: AxiosError) => {
             if (error.response) {
                 const response = error.response
-                if (response.status === 400) {
+                if (response.status === 400 || response.status===404) {
                     setErrors(response.data)
+                } else if (response.status === 401) {
+                    window.alert('请先登录');
+                    window.location.href = `/sign_in?return_to=${encodeURIComponent(window.location.pathname)}`;
                 }
             }
         })
@@ -68,7 +71,9 @@ export function useForm<T>(options: useFormOptions<T>) {
                         {errors[field.key]?.length > 0 && <div> {errors[field.key].join(',')}</div>}
                     </div>
                 )
+
             }
+            {JSON.stringify(formData)}
             <div>
                 {buttons}
             </div>
