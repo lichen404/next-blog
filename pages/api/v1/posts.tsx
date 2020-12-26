@@ -16,6 +16,7 @@ const Posts = withSession(async (req: NextApiRequest, res: NextApiResponse) => {
             res.end()
             return
         }
+        post.author = user
         const conn = await getDatabaseConnection();
         await conn.manager.save(post)
         res.json(post)
