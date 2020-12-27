@@ -19,3 +19,7 @@ declare module 'next' {
         session:Session
     }
 }
+type User = {
+    id:string;
+}
+

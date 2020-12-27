@@ -1,6 +1,7 @@
 import 'styles/globals.css'
 import React from "react";
 import Head from "next/head";
+import 'github-markdown-css'
 
 function MyApp({Component, pageProps}) {
     return (
