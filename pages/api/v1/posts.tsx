@@ -21,7 +21,9 @@ const Posts = withSession(async (req: NextApiRequest, res: NextApiResponse) => {
         await conn.manager.save(post)
         res.json(post)
 
+
     }
+
 });
 
 export default Posts;

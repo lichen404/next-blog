@@ -6,7 +6,7 @@ import {Comment} from "../src/entity/Comment"
 import devConfig from 'ormconfig.json'
 import prodConfig from 'ormconfig.prod.json'
 
-const config = process.env.NODE_ENV === 'production' ? devConfig : prodConfig
+const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig
 const create = async () => {
     // @ts-ignore
     return createConnection({
