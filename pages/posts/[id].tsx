@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next';
 import getDatabaseConnection from "../../lib/getDatabaseConnection";
 import {Post} from "../../src/entity/Post";
@@ -6,6 +6,7 @@ import marked from "marked";
 import Link from 'next/link';
 import withSession from "../../lib/withSession";
 import {User} from "../../next-env";
+import axios from "axios";
 
 type Props = {
     post: Post,
@@ -13,17 +14,34 @@ type Props = {
 }
 const postsShow: NextPage<Props> = (props) => {
     const {post, currentUser} = props;
+    const deletePost = useCallback(() => {
+        axios.delete(`/api/v1/posts/${post.id}`).then(() => {
+            window.alert('删除成功')
+        }, () => {
+            window.alert('删除失败')
+        })
+    }, [post.id])
     return (
         <div className="wrapper">
             <h1>{post.title}</h1>
-            <p>
-                {currentUser && <Link href="/posts/[id]/edit" as={`/posts/${post.id}/edit`}>
+            {currentUser &&
+            <p className="actions">
+                <Link href="/posts/[id]/edit" as={`/posts/${post.id}/edit`}>
                     <a>编辑</a>
-                </Link>}
-            </p>
+                </Link>
+                <button onClick={deletePost}>删除</button>
+            </p>}
             <article className="markdown-body" dangerouslySetInnerHTML={{__html: marked(post.content)}}/>
             <style jsx>
                 {`
+                  .actions > * {
+                    margin: 4px;
+                  }
+
+                  .actions > *:first-child {
+                    margin-left: 0;
+                  }
+
                   .wrapper {
                     max-width: 800px;
                     margin: 16px auto;
