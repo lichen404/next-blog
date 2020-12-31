@@ -34,18 +34,14 @@ export const usePager = (options: Options) => {
     }, [])
     const pager = totalPage > 1 ? (
         <div className="wrapper">
-            {page !== 1 && <Link href={urlMaker(page - 1, pageSize)}>
-                <a>上一页</a>
-            </Link>}
+
             {
                 pageNumbers.map(n => n === -1 ? <span key={n}>...</span> :
                     <Link href={urlMaker(n, pageSize)} key={n}><a>{n}</a></Link>
                 )
             }
-            {page < totalPage && <Link href={urlMaker(page + 1, pageSize)}>
-                <a>下一页</a>
-            </Link>}
-            共 {totalCount} 篇文章，当前是第 {page} / {totalPage} 页
+
+
 
             <style jsx>{`
               .wrapper > a, .wrapper > span {

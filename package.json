@@ -15,6 +15,7 @@
     "@babel/cli": "^7.12.8",
     "axios": "^0.21.1",
     "concurrently": "^5.3.0",
+    "dayjs": "^1.9.8",
     "github-markdown-css": "^4.0.0",
     "gray-matter": "^4.0.2",
     "lodash": "^4.17.20",

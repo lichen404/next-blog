@@ -7,15 +7,20 @@ import {Post} from "../../src/entity/Post";
 import {usePager} from "../../hooks/usePager";
 import withSession from "../../lib/withSession";
 import {User} from "../../next-env";
+import day from "../../lib/day";
 
 
-export const getServerSideProps: GetServerSideProps = withSession(async (context:GetServerSidePropsContext) => {
+export const getServerSideProps: GetServerSideProps = withSession(async (context: GetServerSidePropsContext) => {
     const conn = await getDatabaseConnection()
     const {query} = qs.parseUrl(context.req.url)
     const page = parseInt(query.page?.toString()) || 1
     const pageSize = parseInt(query['page_size']?.toString()) || 10
     const currentUser = (context.req as any).session.get('currentUser') || null
-    const [posts, count] = await conn.manager.findAndCount(Post, {skip: (page - 1) * pageSize, take: pageSize})
+    const [posts, count] = await conn.manager.findAndCount(Post, {
+        skip: (page - 1) * pageSize, take: pageSize, order: {
+            createdAt: "DESC"
+        }
+    })
 
     return {
         props: {
@@ -36,28 +41,45 @@ type Props = {
     totalPage: number,
     page: number,
     pageSize: number,
-    currentUser:User | null;
+    currentUser: User | null;
 
 
 }
 const Posts: NextPage<Props> = function (props) {
-    const {posts, totalCount, totalPage, page, pageSize,currentUser} = props;
+    const {posts, totalCount, totalPage, page, pageSize, currentUser} = props;
     const {pager} = usePager({totalCount, page, totalPage, pageSize})
+    const hash: { [key: string]: Post[] } = {}
+    posts.forEach(p => {
+        const key = day(p.createdAt).format('YYYY')
+        if (!(key in hash)) {
+            hash[key] = []
+        }
+        hash[key].push(p)
+    })
+    const result = Object.entries(hash)
     return (
         <div className="posts">
             <header>
-                <h1>文章列表</h1>
-                { currentUser && <Link href="/posts/new"><a>新增文章</a></Link>}
+                <h2>文章列表</h2>
+                {currentUser && <Link href="/posts/new"><a>新增文章</a></Link>}
             </header>
             {
-                posts.map(post => (
-                    <div key={post.id} className="onePost">
-                        <Link href={`/posts/${post.id}`}>
-                            <a>{post.title}</a>
-                        </Link>
+                result.map(([year, posts]) => (
+                    <div key={year}><h3 className="postYear">{year}</h3>
+                        {
+                            posts.map((post) =>
+
+                                <div key={post.id} className="onePost">
+                                    <Link href={`/posts/${post.id}`}>
+                                        <a>{post.title}</a>
+
+                                    </Link>
+                                    <span>{day(post.createdAt).format('LL')}</span>
+                                </div>
+                            )
+                        }
+
                     </div>
-
-
                 ))
             }
             <footer>
@@ -66,35 +88,52 @@ const Posts: NextPage<Props> = function (props) {
             <style jsx>
                 {
                     `
-                    .posts {
-                      max-width: 800px;
-                      margin: 0 auto;
-                      padding: 16px;
-                    }
-                    .posts > header {
-                      display: flex;
-                      align-items: center;
-                    }
-                    .posts >header >h1 {
-                      margin-bottom:0;
-                      margin-top: 0;
-                      margin-right: auto;
-                    }
-                    .onePost {
-                      border-bottom: 1px solid #ddd; 
-                      color: #000;
-                      padding: 8px 0;
-                    }
-                    .onePost > a {
-                       border-bottom: none;
-                       color:#000;
-                    }
-                    .onePost > a:hover {
-                      color:#00adb5;
-                    }
-                    footer {
-                       text-align: center;
-                    }
+                      .posts {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        padding: 16px;
+                      }
+                      .postYear {
+                        margin: 16px 0;
+                      }
+
+                      .posts > header {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 20px;
+                      }
+
+                      .posts > header > h2 {
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        margin-right: auto;
+                      }
+
+                      .onePost {
+                        color: #000;
+                        padding: 8px 0;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-left: 20px;
+                      }
+
+                      .onePost > a {
+                        border-bottom: none;
+
+                      }
+
+                      .onePost > a:hover {
+                        color: #2d96bd;
+                      }
+
+                      .onePost > span {
+                        color: #a9a9b3;
+                      }
+
+                      footer {
+                        text-align: center;
+                      }
                     `
                 }
             </style>

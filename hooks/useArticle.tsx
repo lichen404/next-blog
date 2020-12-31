@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import React, {ChangeEvent, useCallback, useState} from "react";
 import dynamic from "next/dynamic";
 import 'react-markdown-editor-lite/lib/index.css';
