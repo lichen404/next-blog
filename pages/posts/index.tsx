@@ -57,7 +57,17 @@ const Posts: NextPage<Props> = function (props) {
         }
         hash[key].push(p)
     })
-    const result = Object.entries(hash)
+    const result = Object.entries(hash).sort((x,y)=>{
+        if(x[0] > y[0]){
+            return -1
+        }
+        else if(x[0] < y[0]){
+            return 1
+        }
+        else {
+            return  0
+        }
+    })
     return (
         <Layout>
         <div className="posts">
