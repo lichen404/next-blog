@@ -8,6 +8,8 @@ import withSession from "../../lib/withSession";
 import {User} from "../../next-env";
 import axios from "axios";
 import {Layout} from "../../components/Layout";
+import day from "../../lib/day";
+
 
 type Props = {
     post: Post,
@@ -24,42 +26,67 @@ const postsShow: NextPage<Props> = (props) => {
     }, [post.id])
     return (
         <Layout>
-        <div className="wrapper">
-            <h1>{post.title}</h1>
-            <span>Author:{JSON.stringify(post)}</span>  <span>Date:{post.createdAt}</span>
-            {currentUser &&
-            <p className="actions">
-                <Link href="/posts/[id]/edit" as={`/posts/${post.id}/edit`}>
-                    <a>编辑</a>
-                </Link>
-                <button onClick={deletePost}>删除</button>
-            </p>}
-            <article className="markdown-body" dangerouslySetInnerHTML={{__html: marked(post.content)}}/>
-            <style jsx>
-                {`
-                  .actions > * {
-                    margin: 4px;
-                  }
+            <div className="wrapper">
+                <h1>{post.title}</h1>
+                <div className="postHeader">
+                    <div className="postMeta">
+                        <span>Author:
+                    <a href="#">{post.author.username}</a>
+                </span>
+                        <span>Date:
+                    <a
+                        href="#">{day(post.createdAt).format('MMM D, YYYY H:mm')}</a>
+                </span>
+                    </div>
 
-                  .actions > *:first-child {
-                    margin-left: 0;
-                  }
+                    {currentUser &&
+                    <p className="actions">
+                        <Link href="/posts/[id]/edit" as={`/posts/${post.id}/edit`}>
+                            <a>编辑</a>
+                        </Link>
+                        <button onClick={deletePost}>删除</button>
+                    </p>}
+                </div>
 
-                  .wrapper {
-                    max-width: 800px;
-                    margin: 16px auto;
-                    padding: 0 16px;
-                  }
+                <article className="markdown-body" dangerouslySetInnerHTML={{__html: marked(post.content)}}/>
+                <style jsx>
+                    {`
+                      .postMeta > span > a {
+                        color: #2d96bd;
+                        margin: 0 4px;
+                      }
 
-                  h1 {
-                    padding-bottom: 16px;
-                    border-bottom: 1px solid #666;
-                  }
-                `
+                      .postMeta > span {
+                        color: rgba(85, 85, 85, 0.529);
+                      }
 
-                }
-            </style>
-        </div>
+                      .postHeader {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 32px;
+                      }
+
+                      .actions > * {
+                        margin: 4px;
+                      }
+
+                      .actions > *:first-child {
+                        margin-left: 0;
+                      }
+
+                      .wrapper {
+                        max-width: 800px;
+                        margin: 16px auto;
+                        padding: 0 16px;
+                      }
+                   
+
+                    `
+
+                    }
+                </style>
+            </div>
         </Layout>
     );
 };
@@ -67,7 +94,9 @@ export default postsShow;
 
 export const getServerSideProps: GetServerSideProps<any, { id: string }> = withSession(async (context: GetServerSidePropsContext) => {
     const conn = await getDatabaseConnection()
-    const post = await conn.manager.findOne(Post, context.params.id.toString())
+    const post = await conn.manager.findOne(Post, context.params.id.toString(), {
+        relations: ['author', 'comments']
+    })
     const currentUser = (context.req as any).session.get('currentUser') || null
     return {
         props: {
