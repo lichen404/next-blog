@@ -2,6 +2,7 @@ import {NextPage} from 'next';
 import React from "react";
 import axios, {AxiosError} from "axios";
 import useArticle from "../../hooks/useArticle";
+import {Layout} from "../../components/Layout";
 
 
 const PostsNew: NextPage = () => {
@@ -31,9 +32,11 @@ const PostsNew: NextPage = () => {
         }
     })
     return (
-        <div>
+        <>
             {articleForm}
-        </div>
+
+        </>
+
     )
 }
 

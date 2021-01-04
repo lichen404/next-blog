@@ -7,6 +7,7 @@ import Link from 'next/link';
 import withSession from "../../lib/withSession";
 import {User} from "../../next-env";
 import axios from "axios";
+import {Layout} from "../../components/Layout";
 
 type Props = {
     post: Post,
@@ -22,8 +23,10 @@ const postsShow: NextPage<Props> = (props) => {
         })
     }, [post.id])
     return (
+        <Layout>
         <div className="wrapper">
             <h1>{post.title}</h1>
+            <span>Author:{JSON.stringify(post)}</span>  <span>Date:{post.createdAt}</span>
             {currentUser &&
             <p className="actions">
                 <Link href="/posts/[id]/edit" as={`/posts/${post.id}/edit`}>
@@ -57,6 +60,7 @@ const postsShow: NextPage<Props> = (props) => {
                 }
             </style>
         </div>
+        </Layout>
     );
 };
 export default postsShow;

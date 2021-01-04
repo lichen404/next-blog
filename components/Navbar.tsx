@@ -18,6 +18,7 @@ export  const Navbar = () => {
                 {`
                   .navbar {
                     line-height: 64px;
+                    z-index: 1;
                   }
 
                   .navbar > .container {
@@ -30,6 +31,9 @@ export  const Navbar = () => {
 
                   .navbar > .container > .menu > a {
                     padding: 0 8px;
+                  }
+                  a:hover {
+                      color: #2d96bd;
                   }
                 `
 

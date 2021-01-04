@@ -1,5 +1,9 @@
 html {
     font-family: 'Microsoft Jhenghei', Lantinghei SC, 'lanting', PingFang SC, Seguo UI, Microsoft Yahei, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 1.5;
+
 }
 
 a {
@@ -13,7 +17,7 @@ a {
     box-sizing: border-box;
 }
 
-*:before, *:after {
+*::before, *::after {
     box-sizing: border-box;
 }
 

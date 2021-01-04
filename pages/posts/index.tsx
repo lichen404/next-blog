@@ -8,6 +8,7 @@ import {usePager} from "../../hooks/usePager";
 import withSession from "../../lib/withSession";
 import {User} from "../../next-env";
 import day from "../../lib/day";
+import {Layout} from "../../components/Layout";
 
 
 export const getServerSideProps: GetServerSideProps = withSession(async (context: GetServerSidePropsContext) => {
@@ -58,9 +59,9 @@ const Posts: NextPage<Props> = function (props) {
     })
     const result = Object.entries(hash)
     return (
+        <Layout>
         <div className="posts">
             <header>
-                <h2>文章列表</h2>
                 {currentUser && <Link href="/posts/new"><a>新增文章</a></Link>}
             </header>
             {
@@ -98,16 +99,11 @@ const Posts: NextPage<Props> = function (props) {
                       }
 
                       .posts > header {
-                        display: flex;
-                        align-items: center;
+                        text-align: right;
                         margin-bottom: 20px;
                       }
 
-                      .posts > header > h2 {
-                        margin-bottom: 0;
-                        margin-top: 0;
-                        margin-right: auto;
-                      }
+                   
 
                       .onePost {
                         color: #000;
@@ -138,6 +134,7 @@ const Posts: NextPage<Props> = function (props) {
                 }
             </style>
         </div>
+        </Layout>
 
     );
 
