@@ -49,32 +49,30 @@ export const usePager = (options: Options) => {
 
               }
 
-              .wrapper > .pageNumber ::before, .wrapper > .pageNumber ::after {
+              .wrapper > .pageNumber ::after {
                 position: absolute;
                 content: "";
-                width: 0;
+                width: 100%;
                 height: 1px;
                 background: #000;
                 bottom: 0;
-                transition: .3s;
+                left: 0;
+                transition: .3s ease-in-out;
+                visibility: hidden;
+                transform: scaleX(0);
               }
-              .wrapper >.pageNumber {
+
+              .wrapper > .pageNumber:hover::after {
+                visibility: visible;
+                transform: scaleX(1);
+              }
+
+              .wrapper > .pageNumber {
                 position: relative;
-                transition: .3s;
                 cursor: pointer;
                 padding: 5px;
               }
 
-              .wrapper > .pageNumber::before {
-                left: 50%;
-              }
-              .wrapper > .pageNumber:hover::before,.wrapper >.pageNumber:hover::after{
-                  width: 60%;
-              }
-
-              .wrapper > .pageNumber::after {
-                right: 50%;
-              }
 
               .wrapper {
                 margin: 0 -8px;
