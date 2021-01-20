@@ -2,6 +2,7 @@ import {NextPage} from "next";
 import React from "react";
 import axios from "axios";
 import {useForm} from "../hooks/useForm";
+import {Center} from "../components/Center";
 
 const SignUp: NextPage = () => {
     const {form} = useForm({
@@ -13,14 +14,18 @@ const SignUp: NextPage = () => {
         buttons: <button type="submit">注册</button>,
         submit: {
             request: formData => axios.post(`/api/v1/users`, formData),
-            success:()=>window.alert('注册成功')
+            success: () => window.alert('注册成功')
         }
     });
     return (
-        <>
+
+
+        <Center>
             <h1>注册</h1>
             {form}
-        </>
+        </Center>
+
+
     )
 }
 export default SignUp;

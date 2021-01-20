@@ -5,6 +5,7 @@ import axios from "axios";
 import {useForm} from "../hooks/useForm";
 import withSession from "../lib/withSession";
 import qs from 'query-string'
+import {Center} from "../components/Center";
 
 const SignIn: NextPage<{ user: User }> = (props) => {
     const {form} = useForm({
@@ -26,10 +27,10 @@ const SignIn: NextPage<{ user: User }> = (props) => {
         }
     })
     return (
-        <>
+        <Center>
             <h1>登录</h1>
             {form}
-        </>
+        </Center>
     )
 
 

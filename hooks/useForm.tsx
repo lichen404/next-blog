@@ -73,7 +73,6 @@ export function useForm<T>(options: useFormOptions<T>) {
                 )
 
             }
-            {JSON.stringify(formData)}
             <div>
                 {buttons}
             </div>
