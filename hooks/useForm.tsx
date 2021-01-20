@@ -1,6 +1,7 @@
 import {ReactChild, useCallback, useState} from "react";
 import React from "react";
 import {AxiosError, AxiosResponse} from "axios";
+import {useRouter} from "next/router";
 
 type Field<T> = {
     label: string,
@@ -20,6 +21,7 @@ type useFormOptions<T> = {
 }
 
 export function useForm<T>(options: useFormOptions<T>) {
+    const router = useRouter()
     const {initFormData, fields, buttons, submit} = options
     // 非受控
     const [formData, setFormData] = useState(initFormData)
@@ -40,19 +42,20 @@ export function useForm<T>(options: useFormOptions<T>) {
     }, [formData])
     const _onSubmit = useCallback((e) => {
         e.preventDefault()
+
         submit.request(formData).then(
-           submit.success
-        , (error: AxiosError) => {
-            if (error.response) {
-                const response = error.response
-                if (response.status === 400 || response.status===404) {
-                    setErrors(response.data)
-                } else if (response.status === 401) {
-                    window.alert('请先登录');
-                    window.location.href = `/sign_in?return_to=${encodeURIComponent(window.location.pathname)}`;
+            submit.success
+            , (error: AxiosError) => {
+                if (error.response) {
+                    const response = error.response
+                    if (response.status === 400 || response.status === 404) {
+                        setErrors(response.data)
+                    } else if (response.status === 401) {
+                        window.alert('请先登录');
+                        router.push(`/sign_in?return_to=${encodeURIComponent(router.pathname)}`).then();
+                    }
                 }
-            }
-        })
+            })
     }, [submit, formData])
     const form = (
         <form onSubmit={_onSubmit}>

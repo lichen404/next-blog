@@ -6,7 +6,7 @@ import getDatabaseConnection from "../../lib/getDatabaseConnection";
 import {Post} from "../../src/entity/Post";
 import {usePager} from "../../hooks/usePager";
 import withSession from "../../lib/withSession";
-import {User} from "../../next-env";
+
 import day from "../../lib/day";
 import {Layout} from "../../components/Layout";
 

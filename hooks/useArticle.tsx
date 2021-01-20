@@ -1,26 +1,39 @@
 import {AxiosError, AxiosResponse} from "axios";
-import React, {ChangeEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
 import dynamic from "next/dynamic";
+import {useRouter} from "next/router";
 import 'react-markdown-editor-lite/lib/index.css';
 import marked from "marked";
+
+
 
 
 const MdEditor = dynamic(() =>
         import('react-markdown-editor-lite')
     , {ssr: false});
-type formData = { title: string, content: string }
+
 type useArticleOptions = {
-    initFormData: formData;
+    initFormData: FormContent;
     submit: {
-        request: (formData: formData) => Promise<AxiosResponse>;
+        request: (formData: FormContent) => Promise<AxiosResponse>;
         success: () => void;
-        fail: (error:AxiosError) => void;
+        fail: (error:AxiosError,content:FormContent) => void;
     }
 
 }
 const useArticle = (options: useArticleOptions) => {
+
     const {initFormData, submit: {request, success, fail}} = options
     const [article, setArticle] = useState(initFormData)
+    const {query:{save_time:time}} = useRouter()
+    useEffect(()=>{
+        if(time){
+            const cache = JSON.parse(localStorage.getItem('cache'));
+            if(cache.date===time){
+                setArticle(cache.content)
+            }
+        }
+    },[])
     const handleEditorChange = useCallback(({text}: { text: string }) => {
         setArticle({...article, content: text})
 
@@ -30,7 +43,7 @@ const useArticle = (options: useArticleOptions) => {
     }, [article])
     const submit = useCallback(() => {
 
-        request(article).then(success, fail
+        request(article).then(success, (error)=>fail(error,article)
         )
 
     }, [article,success,fail,request])
