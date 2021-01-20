@@ -7,19 +7,10 @@ declare module "*.png" {
 }
 declare module "*.css";
 
-type Post = {
-    id:string;
-    title:string;
-    date:string;
-    content:string;
-    htmlContent:string;
-}
+
 declare module 'next' {
     interface NextApiRequest {
         session:Session
     }
-}
-type User = {
-    id:string;
 }
 

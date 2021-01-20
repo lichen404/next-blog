@@ -5,12 +5,14 @@ import {Post} from "../../../src/entity/Post";
 import withSession from "../../../lib/withSession";
 import useArticle from "../../../hooks/useArticle";
 import axios, {AxiosError} from "axios";
+import {useRouter} from "next/router";
 
 type Props = {
     post: Post,
     id:number
 }
 const PostsEdit: NextPage<Props> = (props: Props) => {
+    const router = useRouter()
     const {articleForm} = useArticle({
         initFormData: props.post,
         submit: {
@@ -27,7 +29,7 @@ const PostsEdit: NextPage<Props> = (props: Props) => {
                         window.alert('修改失败')
                     } else if (response.status === 401) {
                         window.alert('请先登录');
-                        window.location.href = `/sign_in?return_to=${encodeURIComponent(window.location.pathname)}`;
+                        router.push(`/sign_in?return_to=${encodeURIComponent(router.pathname)}`).then();
                     }
                 }
             }

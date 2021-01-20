@@ -1,6 +1,5 @@
 import {NextApiHandler} from 'next';
 import getDatabaseConnection from "../../../../lib/getDatabaseConnection";
-import {Post} from "../../../../next-env";
 import withSession from "../../../../lib/withSession";
 
 const post: NextApiHandler = withSession(async (req, res) => {

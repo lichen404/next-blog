@@ -4,10 +4,11 @@ import {User} from "../src/entity/User";
 import axios from "axios";
 import {useForm} from "../hooks/useForm";
 import withSession from "../lib/withSession";
-import qs from 'query-string'
+import {useRouter} from "next/router";
 import {Center} from "../components/Center";
 
 const SignIn: NextPage<{ user: User }> = (props) => {
+    const router = useRouter()
     const {form} = useForm({
         initFormData: {username: "", password: ""},
         fields: [
@@ -19,9 +20,9 @@ const SignIn: NextPage<{ user: User }> = (props) => {
             request: formData => axios.post('/api/v1/sessions', formData),
             success: () => {
                 window.alert('登录成功')
-                const query = qs.parse(window.location.search)
-                if (query.return_to) {
-                    window.location.href = query.return_to.toString()
+                const {query: {return_to,time}} = router
+                if (return_to) {
+                    router.push(return_to.toString() + `?save_time=${time}`).then()
                 }
             }
         }
