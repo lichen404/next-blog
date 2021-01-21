@@ -12,7 +12,7 @@ type Field<T> = {
 type useFormOptions<T> = {
     initFormData: T;
     fields: Field<T>[];
-    buttons: ReactChild;
+    buttonText: string;
     submit: {
         request: (formData: T) => Promise<AxiosResponse<T>>;
         success: () => void;
@@ -22,7 +22,7 @@ type useFormOptions<T> = {
 
 export function useForm<T>(options: useFormOptions<T>) {
     const router = useRouter()
-    const {initFormData, fields, buttons, submit} = options
+    const {initFormData, fields, buttonText, submit} = options
     // 非受控
     const [formData, setFormData] = useState(initFormData)
     const [errors, setErrors] = useState(() => {
@@ -62,23 +62,66 @@ export function useForm<T>(options: useFormOptions<T>) {
             {
                 fields.map(field =>
                     <div key={field.key.toString()}>
-                        <label>{field.label}
+                        <label><span className="labelName">{field.label}</span>
                             {field.type === 'textarea' ?
                                 <textarea onChange={(e) => onChange(field.key, e.target.value)}/>
                                 :
+                                <div className="field">
                                 <input type={field.type} value={formData[field.key].toString()}
                                        onChange={(e) => onChange(field.key, e.target.value)}/>
+                                    <div className="errors">{errors[field.key]?.length > 0 && <div> {errors[field.key].join(',')}</div>}</div>
+                                </div>
                             }
 
                         </label>
-                        {errors[field.key]?.length > 0 && <div> {errors[field.key].join(',')}</div>}
+
                     </div>
                 )
 
             }
             <div>
-                {buttons}
+                <button type="submit" className="submitButton">{buttonText}</button>
             </div>
+            <style jsx>
+                {
+                    `
+                    .labelName {
+                        width: 6em;
+                        display: inline-block;
+                    }
+                  
+                    input {
+                      margin-bottom: 20px;
+                      border: none;
+                      border-bottom: 1px solid #333;
+                    }
+                    .field {
+                      position: relative;
+                      display: inline-block;
+                    }
+                    .errors {
+                      position: absolute;
+                      bottom: 0;
+                      white-space: nowrap;
+                      color: #2d96bd;
+                      font-size: 12px;
+                     
+                    }
+                    .submitButton {
+                      width: 100%;
+                      border: 1px solid #333;
+                      border-radius:4px;
+                      padding:4px 0;
+                      margin-bottom: 4px;
+                    
+                    }
+                    .submitButton:hover {
+                      color:#2d96bd;
+                    }
+                    
+                    `
+                }
+            </style>
         </form>
     )
     return {

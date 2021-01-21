@@ -23,5 +23,13 @@ a {
 
 input, button,textarea {
     font: inherit;
+    outline: none;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
 }
 

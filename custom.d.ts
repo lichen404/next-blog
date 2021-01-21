@@ -1,6 +1,4 @@
-type User = {
-    id:string;
-}
+
 type FormContent = {
     title: string;
     content: string;

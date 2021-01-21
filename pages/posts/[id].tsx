@@ -9,6 +9,8 @@ import withSession from "../../lib/withSession";
 import axios from "axios";
 import {Layout} from "../../components/Layout";
 import day from "../../lib/day";
+import {User} from "../../src/entity/User";
+import {useRouter} from "next/router";
 
 
 type Props = {
@@ -17,13 +19,21 @@ type Props = {
 }
 const postsShow: NextPage<Props> = (props) => {
     const {post, currentUser} = props;
+    const router = useRouter()
     const deletePost = useCallback(() => {
         axios.delete(`/api/v1/posts/${post.id}`).then(() => {
             window.alert('删除成功')
+            router.push('/posts').then()
         }, () => {
             window.alert('删除失败')
         })
     }, [post.id])
+    const confirmDeletePost = () => {
+        //TODO
+        if (window.confirm('确定要删除文章吗？')) {
+            deletePost()
+        }
+    }
     return (
         <Layout>
             <div className="wrapper">
@@ -44,7 +54,7 @@ const postsShow: NextPage<Props> = (props) => {
                         <Link href="/posts/[id]/edit" as={`/posts/${post.id}/edit`}>
                             <a>编辑</a>
                         </Link>
-                        <button onClick={deletePost}>删除</button>
+                        <button onClick={confirmDeletePost}>删除</button>
                     </p>}
                 </div>
 
@@ -69,6 +79,11 @@ const postsShow: NextPage<Props> = (props) => {
 
                       .actions > * {
                         margin: 4px;
+
+                      }
+
+                      .actions > *:hover {
+                        color: #2d96bd;
                       }
 
                       .actions > *:first-child {
@@ -80,7 +95,7 @@ const postsShow: NextPage<Props> = (props) => {
                         margin: 16px auto;
                         padding: 0 16px;
                       }
-                   
+
 
                     `
 

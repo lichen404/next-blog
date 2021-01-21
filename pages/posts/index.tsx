@@ -6,9 +6,9 @@ import getDatabaseConnection from "../../lib/getDatabaseConnection";
 import {Post} from "../../src/entity/Post";
 import {usePager} from "../../hooks/usePager";
 import withSession from "../../lib/withSession";
-
 import day from "../../lib/day";
 import {Layout} from "../../components/Layout";
+import {User} from "../../src/entity/User";
 
 
 export const getServerSideProps: GetServerSideProps = withSession(async (context: GetServerSidePropsContext) => {
@@ -111,6 +111,9 @@ const Posts: NextPage<Props> = function (props) {
                       .posts > header {
                         text-align: right;
                         margin-bottom: 20px;
+                      }
+                      header > a:hover {
+                        color:#2d96bd;
                       }
 
                    
