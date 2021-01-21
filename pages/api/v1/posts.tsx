@@ -22,6 +22,10 @@ const Posts = withSession(async (req: NextApiRequest, res: NextApiResponse) => {
         res.json(post)
 
     }
+    else {
+        res.statusCode = 405
+        res.end()
+    }
 
 });
 

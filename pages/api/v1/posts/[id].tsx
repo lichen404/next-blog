@@ -27,6 +27,10 @@ const post: NextApiHandler = withSession(async (req, res) => {
         res.end()
 
     }
+    else {
+        res.statusCode = 405;
+        res.end()
+    }
 
 })
 
