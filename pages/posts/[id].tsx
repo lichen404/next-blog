@@ -90,7 +90,7 @@ const postsShow: NextPage<Props> = (props) => {
                       }
 
                       .wrapper {
-                        max-width: 800px;
+                        max-width: 960px;
                         margin: 16px auto;
                         padding: 0 16px;
                       }
