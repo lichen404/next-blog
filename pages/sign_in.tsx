@@ -1,5 +1,5 @@
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next';
-import React from "react";
+import React, {useEffect} from "react";
 import {User} from "../src/entity/User";
 import axios from "axios";
 import {useForm} from "../hooks/useForm";
@@ -10,6 +10,11 @@ import Link from "next/link"
 
 const SignIn: NextPage<{ user: User }> = (props) => {
     const router = useRouter()
+    useEffect(()=>{
+        if(props.user){
+            router.push('/posts').then()
+        }
+    },[])
     const {form} = useForm({
         initFormData: {username: "", password: ""},
         fields: [
