@@ -4,12 +4,12 @@ import {
     CreateDateColumn,
     Entity,
     OneToMany,
+    Connection,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {Post} from "./Post";
 import {Comment} from "./Comment";
-import getDatabaseConnection from "../../lib/getDatabaseConnection";
 import md5 from "md5";
 import _ from 'lodash';
 
@@ -33,9 +33,9 @@ export class User {
     errors = {username: [] as string[], password: [] as string[], passwordConfirmation: [] as string[]};
     password: string;
     passwordConfirmation: string;
+    connection:Connection;
 
     async validate() {
-        const conn = await getDatabaseConnection();
         if (this.username.trim() === '') {
             this.errors.username.push('不能为空')
         }
@@ -51,7 +51,7 @@ export class User {
         if (this.password !== this.passwordConfirmation) {
             this.errors.passwordConfirmation.push('密码不匹配')
         }
-        const found = await conn.manager.findOne(User, {username: this.username})
+        const found = await this.connection.manager.findOne(User, {username: this.username})
         if (found) {
             this.errors.username.push('已存在，不能重复注册')
         }
@@ -67,6 +67,6 @@ export class User {
     }
 
     toJSON() {
-        return _.omit(this, ['password', 'passwordConfirmation', 'passwordDigest', 'errors'])
+        return _.omit(this, ['password', 'passwordConfirmation', 'passwordDigest', 'errors','connection'])
     }
 }

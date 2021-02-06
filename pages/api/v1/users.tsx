@@ -16,6 +16,7 @@ const Users = async (req: NextApiRequest, res: NextApiResponse) => {
         user.username = username.trim()
         user.passwordDigest = md5(password)
         user.passwordConfirmation = passwordConfirmation;
+        user.connection = conn;
         user.password = password
         await user.validate()
         if (user.hasErrors()) {
