@@ -3,10 +3,8 @@ FROM node:12
 WORKDIR /usr/src/app
 COPY package.json ./
 COPY yarn.lock ./
-RUN yarn config set registry https://registry.npm.taobao.org --global
-RUN yarn install --production=false
-RUN yarn migration:run
+RUN yarn install
 COPY . .
+RUN npx babel ./src --out-dir dist --extensions .ts,.tsx
 EXPOSE 3000
-CMD ["yarn","start"]
-
+CMD [ "yarn", "start" ]
