@@ -3,15 +3,13 @@ import 'reflect-metadata'
 import {Post} from 'src/entity/Post';
 import {User} from "../src/entity/User";
 import {Comment} from "../src/entity/Comment"
-import devConfig from 'ormconfig.json'
-import prodConfig from 'ormconfig.prod.json'
 
-const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig
+import config from 'ormconfig'
+
 const create = async () => {
     // @ts-ignore
     return createConnection({
         ...config,
-        host: process.env.NODE_ENV === 'production' ? 'localhost' : config.host,
         entities: [Post, User, Comment]
     });
 }
