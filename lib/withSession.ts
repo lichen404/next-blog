@@ -6,7 +6,7 @@ export default function withSession(handler: NextApiHandler | GetServerSideProps
         password: process.env.SECRET,
         cookieName: 'blog',
         cookieOptions: {
-            secure: process.env.NODE_ENV === 'production'
+            secure: false
 
         }
     })
