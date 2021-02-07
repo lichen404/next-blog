@@ -74,7 +74,7 @@ const Posts: NextPage<Props> = function (props) {
             <header>
                 {currentUser && <Link href="/posts/new"><a>新增文章</a></Link>}
             </header>
-            {
+            {result.length!==0?
                 result.map(([year, posts]) => (
                     <div key={year}><h3 className="postYear">{year}</h3>
                         {
@@ -91,7 +91,10 @@ const Posts: NextPage<Props> = function (props) {
                         }
 
                     </div>
-                ))
+                )):<div className="noPost">
+                    <img src="/404.png" alt="404"/><span>
+                    还没有文章，快去创建一篇吧</span>
+                </div>
             }
             <footer>
                 {pager}
@@ -138,6 +141,15 @@ const Posts: NextPage<Props> = function (props) {
 
                       .onePost > span {
                         color: #a9a9b3;
+                      }
+                      .noPost {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        margin-top: 200px;
+                      }
+                      .noPost > img{
+                          max-width: 100px;
                       }
 
                       footer {
