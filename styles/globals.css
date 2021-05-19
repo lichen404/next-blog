@@ -32,4 +32,19 @@ button {
     cursor: pointer;
     outline: none;
 }
+@media(prefers-color-scheme:dark) {
+    body {
+        background-color:#35363a;
+        color:#f0f0f0;
+    }
+    .container > .posts .onePost {
+        color: #f0f0f0;
+    }
+    .wrapper .markdown-body {
+        color:#f0f0f0;
+    }
+    .wrapper .markdown-body > pre {
+        color:#24292e;
+    }
+}
 
