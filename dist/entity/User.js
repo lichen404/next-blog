@@ -25,8 +25,6 @@ var _initializerWarningHelper2 = _interopRequireDefault(require("@babel/runtime/
 
 var _typeorm = require("typeorm");
 
-var _getDatabaseConnection = _interopRequireDefault(require("../../lib/getDatabaseConnection"));
-
 var _md = _interopRequireDefault(require("md5"));
 
 var _lodash = _interopRequireDefault(require("lodash"));
@@ -50,23 +48,18 @@ var User = (_dec = (0, _typeorm.Entity)('users'), _dec2 = (0, _typeorm.PrimaryGe
     });
     (0, _defineProperty2["default"])(this, "password", void 0);
     (0, _defineProperty2["default"])(this, "passwordConfirmation", void 0);
+    (0, _defineProperty2["default"])(this, "connection", void 0);
   }
 
   (0, _createClass2["default"])(User, [{
     key: "validate",
     value: function () {
       var _validate = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-        var conn, found;
+        var found;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return (0, _getDatabaseConnection["default"])();
-
-              case 2:
-                conn = _context.sent;
-
                 if (this.username.trim() === '') {
                   this.errors.username.push('不能为空');
                 }
@@ -87,19 +80,19 @@ var User = (_dec = (0, _typeorm.Entity)('users'), _dec2 = (0, _typeorm.PrimaryGe
                   this.errors.passwordConfirmation.push('密码不匹配');
                 }
 
-                _context.next = 10;
-                return conn.manager.findOne(User, {
+                _context.next = 7;
+                return this.connection.manager.findOne(User, {
                   username: this.username
                 });
 
-              case 10:
+              case 7:
                 found = _context.sent;
 
                 if (found) {
                   this.errors.username.push('已存在，不能重复注册');
                 }
 
-              case 12:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -128,7 +121,7 @@ var User = (_dec = (0, _typeorm.Entity)('users'), _dec2 = (0, _typeorm.PrimaryGe
   }, {
     key: "toJSON",
     value: function toJSON() {
-      return _lodash["default"].omit(this, ['password', 'passwordConfirmation', 'passwordDigest', 'errors']);
+      return _lodash["default"].omit(this, ['password', 'passwordConfirmation', 'passwordDigest', 'errors', 'connection']);
     }
   }]);
   return User;

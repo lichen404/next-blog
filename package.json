@@ -10,7 +10,7 @@
     "migration:run": "typeorm migration:run",
     "migration:revert": "typeorm migration:revert",
     "entity:create": "typeorm entity:create",
-    "compile" : "babel ./src --out-dir dist --extensions .ts,.tsx"
+    "compile": "babel ./src --out-dir dist --extensions .ts,.tsx"
   },
   "dependencies": {
     "@babel/cli": "^7.12.8",
@@ -19,6 +19,7 @@
     "dayjs": "^1.9.8",
     "github-markdown-css": "^4.0.0",
     "gray-matter": "^4.0.2",
+    "highlight.js": "^10.7.2",
     "lodash": "^4.17.20",
     "marked": "^1.2.5",
     "md5": "^2.3.0",
