@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useContext} from 'react';
 import Link from 'next/link';
+import {Switch} from './Switch';
+import Context from './Context';
 
 export  const Navbar = () => {
+    const {isDarkTheme,setDarkTheme} = useContext(Context)
     return (
         <>
             <nav className="navbar">
@@ -10,6 +13,10 @@ export  const Navbar = () => {
                     <div className="menu">
                         <Link href="/posts"><a>Posts</a></Link>
                         <Link href="/about"><a>About</a></Link>
+                        <div>
+                            <Switch isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme}/>
+                        </div>
+
                     </div>
                 </div>
 
@@ -18,7 +25,6 @@ export  const Navbar = () => {
                 {`
                   .navbar {
                     line-height: 64px;
-                    z-index: 1;
                   }
 
                   .navbar > .container {
@@ -28,10 +34,17 @@ export  const Navbar = () => {
                     display: flex;
                     justify-content: space-between;
                   }
-
-                  .navbar > .container > .menu > a {
-                    padding: 0 8px;
+                  .navbar > .container > .menu {
+                    display: flex;
+                    align-items: center;
+                   
                   }
+                  .navbar > .container > .menu > a,div {
+                    padding: 0 8px;
+                    display: flex;
+                    align-items: center;
+                  }
+                  
                   a:hover {
                       color: #2d96bd;
                   }

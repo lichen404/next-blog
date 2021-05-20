@@ -24,6 +24,7 @@ a {
 input, button,textarea {
     font: inherit;
     outline: none;
+    color: inherit;
 }
 
 button {
@@ -32,19 +33,43 @@ button {
     cursor: pointer;
     outline: none;
 }
-@media(prefers-color-scheme:dark) {
+@media (prefers-color-scheme: dark) {
     body {
-        background-color:#35363a;
-        color:#f0f0f0;
+        background-color: #35363a;
+        color: #f0f0f0;
     }
+
     .container > .posts .onePost {
         color: #f0f0f0;
     }
+
     .wrapper .markdown-body {
-        color:#f0f0f0;
+        color: #f0f0f0;
     }
-    .wrapper .markdown-body > pre {
-        color:#24292e;
+
+    .wrapper .markdown-body > pre,table {
+        color: #24292e;
     }
 }
+
+.dark-theme {
+    background-color: #35363a;
+    color: #f0f0f0;
+}
+
+.dark-theme .container > .posts .onePost {
+    color: #f0f0f0;
+}
+
+.dark-theme .wrapper .markdown-body {
+    color: #f0f0f0;
+}
+
+.dark-theme .wrapper .markdown-body > pre,table {
+    color: #24292e;
+}
+.dark-theme .wrapper .postMeta > span {
+    color:#87878d !important;
+}
+
 
